@@ -14,7 +14,7 @@ class MultiSelectDropdownServer<T> extends StatefulWidget {
   final Color chipBackgroundColor;
 
   const MultiSelectDropdownServer({
-    Key? key,
+    super.key,
     required this.items,
     required this.selectedItems,
     required this.onChanged,
@@ -24,7 +24,7 @@ class MultiSelectDropdownServer<T> extends StatefulWidget {
     this.onSearch,
     this.loadingColor = Colors.orange,
     this.chipBackgroundColor = Colors.orange,
-  }) : super(key: key);
+  });
 
   @override
   _MultiSelectDropdownServerState<T> createState() => _MultiSelectDropdownServerState<T>();
@@ -46,10 +46,7 @@ class _MultiSelectDropdownServerState<T> extends State<MultiSelectDropdownServer
     if (widget.selectedItems.isNotEmpty) {
       _selectedItems = List.from(widget.selectedItems);
     } else {
-      _selectedItems = widget.items
-          .where((item) =>
-          (widget.roomIncl ?? []).contains((item as dynamic)))
-          .toList();
+      _selectedItems = widget.items.where((item) => (widget.roomIncl ?? []).contains((item as dynamic))).toList();
     }
   }
 
@@ -128,7 +125,10 @@ class _MultiSelectDropdownServerState<T> extends State<MultiSelectDropdownServer
       color: Colors.white,
       padding: const EdgeInsets.all(0),
       offset: const Offset(0, 60),
-      elevation: 10,
+      elevation: 12,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
       itemBuilder: (context) => [
         PopupMenuItem(
           padding: const EdgeInsets.all(0),
@@ -136,116 +136,249 @@ class _MultiSelectDropdownServerState<T> extends State<MultiSelectDropdownServer
           child: StatefulBuilder(
             builder: (context, setDialogState) => Container(
               width: MediaQuery.of(context).size.width * 0.8,
-              constraints: const BoxConstraints(maxHeight: 400),
+              constraints: const BoxConstraints(maxHeight: 450),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(12),
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [
+                    Colors.white,
+                    Colors.grey.shade50,
+                  ],
+                ),
+              ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // Search bar
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: TextField(
-                      controller: _searchController,
-                      autofocus: true,
-                      decoration: InputDecoration(
-                        hintText: 'Search...',
-                        suffixIcon: _searchQuery.isNotEmpty
-                            ? IconButton(
-                          icon: const Icon(Icons.clear),
-                          onPressed: () {
-                            setDialogState(() {
-                              _searchController.clear();
-                              _searchQuery = '';
-                              _hasSearched = false;
-                              _searchResults = [];
-                              _isSearching = false;
-
-                            });
-                            _debounce?.cancel();
-                          },
-                        )
-                            : null,
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: widget.chipBackgroundColor)
-                        ),
-                        contentPadding: const EdgeInsets.symmetric(
-                          horizontal: 12,
-                          vertical: 8,
-                        ),
+                  // Header with title
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                    decoration: BoxDecoration(
+                      color: widget.chipBackgroundColor.withOpacity(0.1),
+                      borderRadius: const BorderRadius.only(
+                        topLeft: Radius.circular(12),
+                        topRight: Radius.circular(12),
                       ),
-                      onChanged: (value) {
-                        _onSearchChanged(value, setDialogState);
-                      },
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(Icons.filter_list, color: widget.chipBackgroundColor, size: 20),
+                        const SizedBox(width: 8),
+                        Text(
+                          'Select Items',
+                          style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: widget.chipBackgroundColor,
+                          ),
+                        ),
+                        const Spacer(),
+                        if (_selectedItems.isNotEmpty)
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                            decoration: BoxDecoration(
+                              color: widget.chipBackgroundColor,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: Text(
+                              '${_selectedItems.length} selected',
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 12,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                      ],
                     ),
                   ),
-                  const Divider(height: 1),
-                  // List of items
+
+                  // Search bar with enhanced styling
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(12, 12, 12, 8),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade100,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(
+                          color: _searchQuery.isNotEmpty
+                              ? widget.chipBackgroundColor.withOpacity(0.3)
+                              : Colors.grey.shade300,
+                        ),
+                      ),
+                      child: TextField(
+                        controller: _searchController,
+                        autofocus: true,
+                        style: const TextStyle(fontSize: 14),
+                        decoration: InputDecoration(
+                          hintText: 'Search items...',
+                          hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 14),
+                          prefixIcon: Icon(
+                            Icons.search,
+                            color: widget.chipBackgroundColor.withOpacity(0.7),
+                            size: 20,
+                          ),
+                          suffixIcon: _searchQuery.isNotEmpty
+                              ? IconButton(
+                            icon: Icon(Icons.clear, color: Colors.grey.shade600, size: 20),
+                            onPressed: () {
+                              setDialogState(() {
+                                _searchController.clear();
+                                _searchQuery = '';
+                                _hasSearched = false;
+                                _searchResults = [];
+                                _isSearching = false;
+                              });
+                              _debounce?.cancel();
+                            },
+                          )
+                              : null,
+                          border: InputBorder.none,
+                          contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                        ),
+                        onChanged: (value) {
+                          _onSearchChanged(value, setDialogState);
+                        },
+                      ),
+                    ),
+                  ),
+
+                  const Divider(height: 1, thickness: 1),
+
+                  // List of items with enhanced styling
                   Flexible(
                     child: _displayItems.isEmpty && !_isSearching
                         ? Center(
                       child: Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: Text(
-                          _hasSearched
-                              ? 'No items found'
-                              : 'Type to search...',
+                        padding: const EdgeInsets.all(24.0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              _hasSearched ? Icons.search_off : Icons.keyboard,
+                              size: 48,
+                              color: Colors.grey.shade300,
+                            ),
+                            const SizedBox(height: 12),
+                            Text(
+                              _hasSearched ? 'No items found' : 'Type to search...',
+                              style: TextStyle(
+                                color: Colors.grey.shade500,
+                                fontSize: 14,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     )
                         : _isSearching
-                        ?  Center(
+                        ? Center(
                       child: Padding(
-                        padding:  EdgeInsets.all(8.0),
-                        child: SpinKitPulsingGrid(
-                          color: widget.loadingColor,
-                          size: 30.0,
+                        padding: const EdgeInsets.all(24.0),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            SpinKitPulsingGrid(
+                              color: widget.loadingColor,
+                              size: 30.0,
+                            ),
+                            const SizedBox(height: 12),
+                            Text(
+                              'Searching...',
+                              style: TextStyle(
+                                color: Colors.grey.shade600,
+                                fontSize: 13,
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                    ):
-                    ListView.builder(
+                    )
+                        : ListView.builder(
                       shrinkWrap: true,
+                      padding: const EdgeInsets.symmetric(vertical: 4),
                       itemCount: _displayItems.length,
                       itemBuilder: (context, index) {
                         final item = _displayItems[index];
                         bool isSelected = _selectedItems.any(
-                                (selectedItem) =>
-                                widget.compareFn(selectedItem, item));
+                              (selectedItem) => widget.compareFn(selectedItem, item),
+                        );
 
-                        return ListTile(
-                          tileColor: Colors.transparent,
-                          title: Padding(
-                            padding: const EdgeInsets.only(left: 8.0),
-                            child: Text(
-                                widget.getLabel(item),
-                                style: const TextStyle(color: Colors.black, fontSize: 16)
+                        return Container(
+                          margin: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 2,
+                          ),
+                          decoration: BoxDecoration(
+                            color: isSelected
+                                ? widget.chipBackgroundColor.withOpacity(0.08)
+                                : Colors.transparent,
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(
+                              color: isSelected
+                                  ? widget.chipBackgroundColor.withOpacity(0.2)
+                                  : Colors.transparent,
+                              width: 1,
                             ),
                           ),
-                          trailing: isSelected
-                              ? const Padding(
-                            padding: EdgeInsets.only(right: 8.0),
-                            child: Icon(
-                              Icons.check,
-                              color: Colors.green,
-                              size: 15,
+                          child: ListTile(
+                            dense: true,
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 12,
+                              vertical: 4,
                             ),
-                          )
-                              : null,
-                          hoverColor: Colors.grey.withOpacity(0.3),
-                          onTap: () {
-                            setState(() {
-                              if (isSelected) {
-                                _selectedItems.removeWhere(
-                                        (selectedItem) => widget.compareFn(
-                                        selectedItem, item));
-                              } else {
-                                _selectedItems.add(item);
-                              }
-                              widget.onChanged(_selectedItems);
-                            });
-                            setDialogState(() {});
-                          },
+                            leading: Container(
+                              width: 20,
+                              height: 20,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                border: Border.all(
+                                  color: isSelected
+                                      ? widget.chipBackgroundColor
+                                      : Colors.grey.shade400,
+                                  width: 2,
+                                ),
+                                color: isSelected
+                                    ? widget.chipBackgroundColor
+                                    : Colors.transparent,
+                              ),
+                              child: isSelected
+                                  ? const Icon(
+                                Icons.check,
+                                color: Colors.white,
+                                size: 14,
+                              )
+                                  : null,
+                            ),
+                            title: Text(
+                              widget.getLabel(item),
+                              style: TextStyle(
+                                color: isSelected
+                                    ? widget.chipBackgroundColor
+                                    : Colors.black87,
+                                fontSize: 14,
+                                fontWeight: isSelected
+                                    ? FontWeight.w600
+                                    : FontWeight.w400,
+                              ),
+                            ),
+                            hoverColor: widget.chipBackgroundColor.withOpacity(0.05),
+                            onTap: () {
+                              setState(() {
+                                if (isSelected) {
+                                  _selectedItems.removeWhere(
+                                        (selectedItem) =>
+                                        widget.compareFn(selectedItem, item),
+                                  );
+                                } else {
+                                  _selectedItems.add(item);
+                                }
+                                widget.onChanged(_selectedItems);
+                              });
+                              setDialogState(() {});
+                            },
+                          ),
                         );
                       },
                     ),
@@ -268,49 +401,109 @@ class _MultiSelectDropdownServerState<T> extends State<MultiSelectDropdownServer
       },
       child: Container(
         width: MediaQuery.of(context).size.width,
-        padding: const EdgeInsets.all(9.0),
+        padding: const EdgeInsets.all(12.0),
         decoration: BoxDecoration(
-          border: Border.all(color: Colors.black),
-          borderRadius: BorderRadius.circular(3),
-        ),
-        child:
-
-        Wrap(
-          spacing: 8.0,
-          runSpacing: 8,
-          children: [
-            const Align(
-                alignment: Alignment.centerLeft,
-                child: Text('Select items',style: TextStyle(color: Colors.grey,fontSize: 12),)),
-            ..._selectedItems.map((item) {
-              return Chip(
-                surfaceTintColor: Colors.white,
-                backgroundColor: widget.chipBackgroundColor,
-                deleteIconColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(3),
-                  side: const BorderSide(color: Colors.transparent),
-                ),
-                label: FittedBox(
-                  child: Text(
-                    widget.getLabel(item),
-                    overflow: TextOverflow.visible,
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                ),
-                onDeleted: () {
-                  setState(() {
-                    _selectedItems.removeWhere((selectedItem) =>
-                        widget.compareFn(selectedItem, item));
-                    widget.onChanged(_selectedItems);
-                  });
-                },
-              );
-            }).toList(),
-            const Align(
-              alignment: Alignment.topRight,
-              child: Icon(Icons.arrow_drop_down),
+          border: Border.all(
+            color: _selectedItems.isNotEmpty
+                ? widget.chipBackgroundColor.withOpacity(0.5)
+                : Colors.grey.shade400,
+            width: 1.5,
+          ),
+          borderRadius: BorderRadius.circular(8),
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.grey.shade200,
+              blurRadius: 4,
+              offset: const Offset(0, 2),
             ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Header row
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Row(
+                  children: [
+                    Icon(
+                      Icons.add_circle_outline,
+                      color: widget.chipBackgroundColor,
+                      size: 18,
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      'Select items',
+                      style: TextStyle(
+                        color: _selectedItems.isEmpty
+                            ? Colors.grey.shade600
+                            : widget.chipBackgroundColor,
+                        fontSize: 13,
+                        fontWeight: _selectedItems.isEmpty
+                            ? FontWeight.w400
+                            : FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+                Icon(
+                  Icons.arrow_drop_down,
+                  color: widget.chipBackgroundColor,
+                ),
+              ],
+            ),
+
+            // Selected chips
+            if (_selectedItems.isNotEmpty) ...[
+              const SizedBox(height: 12),
+              Wrap(
+                spacing: 8.0,
+                runSpacing: 8.0,
+                children: _selectedItems.map((item) {
+                  return Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(6),
+                      boxShadow: [
+                        BoxShadow(
+                          color: widget.chipBackgroundColor.withOpacity(0.2),
+                          blurRadius: 4,
+                          offset: const Offset(0, 2),
+                        ),
+                      ],
+                    ),
+                    child: Chip(
+                      surfaceTintColor: Colors.white,
+                      backgroundColor: widget.chipBackgroundColor,
+                      deleteIconColor: Colors.white,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(6),
+                        side: const BorderSide(color: Colors.transparent),
+                      ),
+                      labelPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                      label: Text(
+                        widget.getLabel(item),
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      deleteIcon: const Icon(Icons.close, size: 16),
+                      onDeleted: () {
+                        setState(() {
+                          _selectedItems.removeWhere(
+                                (selectedItem) => widget.compareFn(selectedItem, item),
+                          );
+                          widget.onChanged(_selectedItems);
+                        });
+                      },
+                    ),
+                  );
+                }).toList(),
+              ),
+            ],
           ],
         ),
       ),
