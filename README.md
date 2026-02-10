@@ -1,39 +1,23 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# Multi Select Dropdown
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/tools/pub/writing-package-pages).
+A customizable Flutter multi-select dropdown widget with search support and optional server-side search.  
+Perfect for large datasets, tagging, categories, cities, countries, and more.
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/to/develop-packages).
--->
+## ✨ Features
 
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
+- ✅ Multi select dropdown
+- 🔍 Built-in search field
+- 🌐 Server-side search support (async)
+- ⚡ Loading indicator while searching
+- 🎨 Customizable UI (colors, styles)
+- 📱 Works on Android, iOS, Web
 
-## Features
+---
 
-TODO: List what your package can do. Maybe include images, gifs, or videos.
+## 🚀 Getting Started
 
-## Getting started
+Add the dependency to your `pubspec.yaml`:
 
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
-
-## Usage
-
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
-
-```dart
-const like = 'sample';
-```
-
-## Additional information
-
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+```yaml
+dependencies:
+  f_multi_select_dropdown: ^0.0.1

@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
-import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class MultiSelectDropdownServer<T> extends StatefulWidget {
   final List<T> items;
@@ -279,11 +278,7 @@ class _MultiSelectDropdownServerState<T> extends State<MultiSelectDropdownServer
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            SpinKitPulsingGrid(
-                              color: widget.loadingColor,
-                              size: 30.0,
-                            ),
-                            const SizedBox(height: 12),
+                            const SizedBox(height: 8),
                             Text(
                               'Searching...',
                               style: TextStyle(

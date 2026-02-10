@@ -1,4 +1,4 @@
-import 'package:f_multi_select_dropdown/multi_select_dropdown.dart';
+import 'package:f_multi_select_dropdown/f_multi_select_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
