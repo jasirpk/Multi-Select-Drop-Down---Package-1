@@ -26,10 +26,10 @@ class MultiSelectDropdownServer<T> extends StatefulWidget {
   });
 
   @override
-  _MultiSelectDropdownServerState<T> createState() => _MultiSelectDropdownServerState<T>();
+  MultiSelectDropdownServerState<T> createState() => MultiSelectDropdownServerState<T>();
 }
 
-class _MultiSelectDropdownServerState<T> extends State<MultiSelectDropdownServer<T>> {
+class MultiSelectDropdownServerState<T> extends State<MultiSelectDropdownServer<T>> {
   late List<T> _selectedItems;
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
@@ -125,9 +125,7 @@ class _MultiSelectDropdownServerState<T> extends State<MultiSelectDropdownServer
       padding: const EdgeInsets.all(0),
       offset: const Offset(0, 60),
       elevation: 12,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       itemBuilder: (context) => [
         PopupMenuItem(
           padding: const EdgeInsets.all(0),
@@ -138,14 +136,7 @@ class _MultiSelectDropdownServerState<T> extends State<MultiSelectDropdownServer
               constraints: const BoxConstraints(maxHeight: 450),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12),
-                gradient: LinearGradient(
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                  colors: [
-                    Colors.white,
-                    Colors.grey.shade50,
-                  ],
-                ),
+                gradient: LinearGradient(begin: Alignment.topLeft, end: Alignment.bottomRight, colors: [Colors.white, Colors.grey.shade50]),
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -154,11 +145,8 @@ class _MultiSelectDropdownServerState<T> extends State<MultiSelectDropdownServer
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                     decoration: BoxDecoration(
-                      color: widget.chipBackgroundColor.withOpacity(0.1),
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(12),
-                        topRight: Radius.circular(12),
-                      ),
+                      color: widget.chipBackgroundColor.withValues(alpha: 0.1),
+                      borderRadius: const BorderRadius.only(topLeft: Radius.circular(12), topRight: Radius.circular(12)),
                     ),
                     child: Row(
                       children: [
@@ -166,27 +154,16 @@ class _MultiSelectDropdownServerState<T> extends State<MultiSelectDropdownServer
                         const SizedBox(width: 8),
                         Text(
                           'Select Items',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: widget.chipBackgroundColor,
-                          ),
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: widget.chipBackgroundColor),
                         ),
                         const Spacer(),
                         if (_selectedItems.isNotEmpty)
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                            decoration: BoxDecoration(
-                              color: widget.chipBackgroundColor,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
+                            decoration: BoxDecoration(color: widget.chipBackgroundColor, borderRadius: BorderRadius.circular(12)),
                             child: Text(
                               '${_selectedItems.length} selected',
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 12,
-                                fontWeight: FontWeight.w500,
-                              ),
+                              style: const TextStyle(color: Colors.white, fontSize: 12, fontWeight: FontWeight.w500),
                             ),
                           ),
                       ],
@@ -200,11 +177,7 @@ class _MultiSelectDropdownServerState<T> extends State<MultiSelectDropdownServer
                       decoration: BoxDecoration(
                         color: Colors.grey.shade100,
                         borderRadius: BorderRadius.circular(10),
-                        border: Border.all(
-                          color: _searchQuery.isNotEmpty
-                              ? widget.chipBackgroundColor.withOpacity(0.3)
-                              : Colors.grey.shade300,
-                        ),
+                        border: Border.all(color: _searchQuery.isNotEmpty ? widget.chipBackgroundColor.withValues(alpha: 0.3) : Colors.grey.shade300),
                       ),
                       child: TextField(
                         controller: _searchController,
@@ -213,25 +186,21 @@ class _MultiSelectDropdownServerState<T> extends State<MultiSelectDropdownServer
                         decoration: InputDecoration(
                           hintText: 'Search items...',
                           hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 14),
-                          prefixIcon: Icon(
-                            Icons.search,
-                            color: widget.chipBackgroundColor.withOpacity(0.7),
-                            size: 20,
-                          ),
+                          prefixIcon: Icon(Icons.search, color: widget.chipBackgroundColor.withValues(alpha: 0.7), size: 20),
                           suffixIcon: _searchQuery.isNotEmpty
                               ? IconButton(
-                            icon: Icon(Icons.clear, color: Colors.grey.shade600, size: 20),
-                            onPressed: () {
-                              setDialogState(() {
-                                _searchController.clear();
-                                _searchQuery = '';
-                                _hasSearched = false;
-                                _searchResults = [];
-                                _isSearching = false;
-                              });
-                              _debounce?.cancel();
-                            },
-                          )
+                                  icon: Icon(Icons.clear, color: Colors.grey.shade600, size: 20),
+                                  onPressed: () {
+                                    setDialogState(() {
+                                      _searchController.clear();
+                                      _searchQuery = '';
+                                      _hasSearched = false;
+                                      _searchResults = [];
+                                      _isSearching = false;
+                                    });
+                                    _debounce?.cancel();
+                                  },
+                                )
                               : null,
                           border: InputBorder.none,
                           contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -249,134 +218,89 @@ class _MultiSelectDropdownServerState<T> extends State<MultiSelectDropdownServer
                   Flexible(
                     child: _displayItems.isEmpty && !_isSearching
                         ? Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(24.0),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              _hasSearched ? Icons.search_off : Icons.keyboard,
-                              size: 48,
-                              color: Colors.grey.shade300,
-                            ),
-                            const SizedBox(height: 12),
-                            Text(
-                              _hasSearched ? 'No items found' : 'Type to search...',
-                              style: TextStyle(
-                                color: Colors.grey.shade500,
-                                fontSize: 14,
+                            child: Padding(
+                              padding: const EdgeInsets.all(24.0),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Icon(_hasSearched ? Icons.search_off : Icons.keyboard, size: 48, color: Colors.grey.shade300),
+                                  const SizedBox(height: 12),
+                                  Text(
+                                    _hasSearched ? 'No items found' : 'Type to search...',
+                                    style: TextStyle(color: Colors.grey.shade500, fontSize: 14),
+                                  ),
+                                ],
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                    )
+                          )
                         : _isSearching
                         ? Center(
-                      child: Padding(
-                        padding: const EdgeInsets.all(24.0),
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const SizedBox(height: 8),
-                            Text(
-                              'Searching...',
-                              style: TextStyle(
-                                color: Colors.grey.shade600,
-                                fontSize: 13,
+                            child: Padding(
+                              padding: const EdgeInsets.all(24.0),
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  const SizedBox(height: 8),
+                                  Text('Searching...', style: TextStyle(color: Colors.grey.shade600, fontSize: 13)),
+                                ],
                               ),
                             ),
-                          ],
-                        ),
-                      ),
-                    )
+                          )
                         : ListView.builder(
-                      shrinkWrap: true,
-                      padding: const EdgeInsets.symmetric(vertical: 4),
-                      itemCount: _displayItems.length,
-                      itemBuilder: (context, index) {
-                        final item = _displayItems[index];
-                        bool isSelected = _selectedItems.any(
-                              (selectedItem) => widget.compareFn(selectedItem, item),
-                        );
+                            shrinkWrap: true,
+                            padding: const EdgeInsets.symmetric(vertical: 4),
+                            itemCount: _displayItems.length,
+                            itemBuilder: (context, index) {
+                              final item = _displayItems[index];
+                              bool isSelected = _selectedItems.any((selectedItem) => widget.compareFn(selectedItem, item));
 
-                        return Container(
-                          margin: const EdgeInsets.symmetric(
-                            horizontal: 8,
-                            vertical: 2,
-                          ),
-                          decoration: BoxDecoration(
-                            color: isSelected
-                                ? widget.chipBackgroundColor.withOpacity(0.08)
-                                : Colors.transparent,
-                            borderRadius: BorderRadius.circular(8),
-                            border: Border.all(
-                              color: isSelected
-                                  ? widget.chipBackgroundColor.withOpacity(0.2)
-                                  : Colors.transparent,
-                              width: 1,
-                            ),
-                          ),
-                          child: ListTile(
-                            dense: true,
-                            contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 12,
-                              vertical: 4,
-                            ),
-                            leading: Container(
-                              width: 20,
-                              height: 20,
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                                border: Border.all(
-                                  color: isSelected
-                                      ? widget.chipBackgroundColor
-                                      : Colors.grey.shade400,
-                                  width: 2,
+                              return Container(
+                                margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                                decoration: BoxDecoration(
+                                  color: isSelected ? widget.chipBackgroundColor.withValues(alpha: 0.08) : Colors.transparent,
+                                  borderRadius: BorderRadius.circular(8),
+                                  border: Border.all(
+                                    color: isSelected ? widget.chipBackgroundColor.withValues(alpha: 0.2) : Colors.transparent,
+                                    width: 1,
+                                  ),
                                 ),
-                                color: isSelected
-                                    ? widget.chipBackgroundColor
-                                    : Colors.transparent,
-                              ),
-                              child: isSelected
-                                  ? const Icon(
-                                Icons.check,
-                                color: Colors.white,
-                                size: 14,
-                              )
-                                  : null,
-                            ),
-                            title: Text(
-                              widget.getLabel(item),
-                              style: TextStyle(
-                                color: isSelected
-                                    ? widget.chipBackgroundColor
-                                    : Colors.black87,
-                                fontSize: 14,
-                                fontWeight: isSelected
-                                    ? FontWeight.w600
-                                    : FontWeight.w400,
-                              ),
-                            ),
-                            hoverColor: widget.chipBackgroundColor.withOpacity(0.05),
-                            onTap: () {
-                              setState(() {
-                                if (isSelected) {
-                                  _selectedItems.removeWhere(
-                                        (selectedItem) =>
-                                        widget.compareFn(selectedItem, item),
-                                  );
-                                } else {
-                                  _selectedItems.add(item);
-                                }
-                                widget.onChanged(_selectedItems);
-                              });
-                              setDialogState(() {});
+                                child: ListTile(
+                                  dense: true,
+                                  contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                                  leading: Container(
+                                    width: 20,
+                                    height: 20,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      border: Border.all(color: isSelected ? widget.chipBackgroundColor : Colors.grey.shade400, width: 2),
+                                      color: isSelected ? widget.chipBackgroundColor : Colors.transparent,
+                                    ),
+                                    child: isSelected ? const Icon(Icons.check, color: Colors.white, size: 14) : null,
+                                  ),
+                                  title: Text(
+                                    widget.getLabel(item),
+                                    style: TextStyle(
+                                      color: isSelected ? widget.chipBackgroundColor : Colors.black87,
+                                      fontSize: 14,
+                                      fontWeight: isSelected ? FontWeight.w600 : FontWeight.w400,
+                                    ),
+                                  ),
+                                  hoverColor: widget.chipBackgroundColor.withValues(alpha: 0.05),
+                                  onTap: () {
+                                    setState(() {
+                                      if (isSelected) {
+                                        _selectedItems.removeWhere((selectedItem) => widget.compareFn(selectedItem, item));
+                                      } else {
+                                        _selectedItems.add(item);
+                                      }
+                                      widget.onChanged(_selectedItems);
+                                    });
+                                    setDialogState(() {});
+                                  },
+                                ),
+                              );
                             },
                           ),
-                        );
-                      },
-                    ),
                   ),
                 ],
               ),
@@ -398,21 +322,10 @@ class _MultiSelectDropdownServerState<T> extends State<MultiSelectDropdownServer
         width: MediaQuery.of(context).size.width,
         padding: const EdgeInsets.all(12.0),
         decoration: BoxDecoration(
-          border: Border.all(
-            color: _selectedItems.isNotEmpty
-                ? widget.chipBackgroundColor.withOpacity(0.5)
-                : Colors.grey.shade400,
-            width: 1.5,
-          ),
+          border: Border.all(color: _selectedItems.isNotEmpty ? widget.chipBackgroundColor.withValues(alpha: 0.5) : Colors.grey.shade400, width: 1.5),
           borderRadius: BorderRadius.circular(8),
           color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.shade200,
-              blurRadius: 4,
-              offset: const Offset(0, 2),
-            ),
-          ],
+          boxShadow: [BoxShadow(color: Colors.grey.shade200, blurRadius: 4, offset: const Offset(0, 2))],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -423,30 +336,19 @@ class _MultiSelectDropdownServerState<T> extends State<MultiSelectDropdownServer
               children: [
                 Row(
                   children: [
-                    Icon(
-                      Icons.add_circle_outline,
-                      color: widget.chipBackgroundColor,
-                      size: 18,
-                    ),
+                    Icon(Icons.add_circle_outline, color: widget.chipBackgroundColor, size: 18),
                     const SizedBox(width: 8),
                     Text(
                       'Select items',
                       style: TextStyle(
-                        color: _selectedItems.isEmpty
-                            ? Colors.grey.shade600
-                            : widget.chipBackgroundColor,
+                        color: _selectedItems.isEmpty ? Colors.grey.shade600 : widget.chipBackgroundColor,
                         fontSize: 13,
-                        fontWeight: _selectedItems.isEmpty
-                            ? FontWeight.w400
-                            : FontWeight.w500,
+                        fontWeight: _selectedItems.isEmpty ? FontWeight.w400 : FontWeight.w500,
                       ),
                     ),
                   ],
                 ),
-                Icon(
-                  Icons.arrow_drop_down,
-                  color: widget.chipBackgroundColor,
-                ),
+                Icon(Icons.arrow_drop_down, color: widget.chipBackgroundColor),
               ],
             ),
 
@@ -460,13 +362,7 @@ class _MultiSelectDropdownServerState<T> extends State<MultiSelectDropdownServer
                   return Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(6),
-                      boxShadow: [
-                        BoxShadow(
-                          color: widget.chipBackgroundColor.withOpacity(0.2),
-                          blurRadius: 4,
-                          offset: const Offset(0, 2),
-                        ),
-                      ],
+                      boxShadow: [BoxShadow(color: widget.chipBackgroundColor.withValues(alpha: 0.2), blurRadius: 4, offset: const Offset(0, 2))],
                     ),
                     child: Chip(
                       surfaceTintColor: Colors.white,
@@ -479,18 +375,12 @@ class _MultiSelectDropdownServerState<T> extends State<MultiSelectDropdownServer
                       labelPadding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                       label: Text(
                         widget.getLabel(item),
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                        ),
+                        style: const TextStyle(color: Colors.white, fontSize: 13, fontWeight: FontWeight.w500),
                       ),
                       deleteIcon: const Icon(Icons.close, size: 16),
                       onDeleted: () {
                         setState(() {
-                          _selectedItems.removeWhere(
-                                (selectedItem) => widget.compareFn(selectedItem, item),
-                          );
+                          _selectedItems.removeWhere((selectedItem) => widget.compareFn(selectedItem, item));
                           widget.onChanged(_selectedItems);
                         });
                       },

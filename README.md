@@ -21,3 +21,12 @@ Add the dependency to your `pubspec.yaml`:
 ```yaml
 dependencies:
   f_multi_select_dropdown: ^0.0.1
+````
+
+## 📸 Screenshots
+
+![Dropdown Closed](assets/screenshots/drop_dwn_list_img.jpeg)
+![Dropdown Opened](assets/screenshots/drop_down_dsply_img.jpeg)
+
+
+
