@@ -1,6 +1,6 @@
 name: f_multi_select_dropdown
 description: "A customizable multi-select dropdown with local and server-side search support."
-version: 0.0.2
+version: 0.0.3
 homepage: https://github.com/jasirpk/Multi-Select-Drop-Down---Package-1
 repository: https://github.com/jasirpk/Multi-Select-Drop-Down---Package-1
 
@@ -18,7 +18,7 @@ dev_dependencies:
   flutter_lints: ^6.0.0
 
 
-license: MIT
+license: MIT OR Apache-2.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

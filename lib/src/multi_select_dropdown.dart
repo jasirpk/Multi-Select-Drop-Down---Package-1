@@ -11,6 +11,10 @@ class MultiSelectDropdownServer<T> extends StatefulWidget {
   final Future<List<T>> Function(String query)? onSearch;
   final Color loadingColor;
   final Color chipBackgroundColor;
+  final BorderRadius? popupBorderRadius;
+  final BorderRadius? fieldRadius;
+  final BorderRadius? searchFieldRadius;
+  final String? itemLabelName;
 
   const MultiSelectDropdownServer({
     super.key,
@@ -23,6 +27,10 @@ class MultiSelectDropdownServer<T> extends StatefulWidget {
     this.onSearch,
     this.loadingColor = Colors.orange,
     this.chipBackgroundColor = Colors.orange,
+    this.popupBorderRadius,
+    this.fieldRadius,
+    this.searchFieldRadius,
+    this.itemLabelName,
   });
 
   @override
@@ -125,7 +133,7 @@ class MultiSelectDropdownServerState<T> extends State<MultiSelectDropdownServer<
       padding: const EdgeInsets.all(0),
       offset: const Offset(0, 60),
       elevation: 12,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      shape: RoundedRectangleBorder(borderRadius: widget.popupBorderRadius ?? BorderRadius.circular(5)),
       itemBuilder: (context) => [
         PopupMenuItem(
           padding: const EdgeInsets.all(0),
@@ -153,7 +161,7 @@ class MultiSelectDropdownServerState<T> extends State<MultiSelectDropdownServer<
                         Icon(Icons.filter_list, color: widget.chipBackgroundColor, size: 20),
                         const SizedBox(width: 8),
                         Text(
-                          'Select Items',
+                          'Select ${widget.itemLabelName ?? "items"}',
                           style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: widget.chipBackgroundColor),
                         ),
                         const Spacer(),
@@ -176,7 +184,7 @@ class MultiSelectDropdownServerState<T> extends State<MultiSelectDropdownServer<
                     child: Container(
                       decoration: BoxDecoration(
                         color: Colors.grey.shade100,
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: widget.searchFieldRadius ?? BorderRadius.circular(5),
                         border: Border.all(color: _searchQuery.isNotEmpty ? widget.chipBackgroundColor.withValues(alpha: 0.3) : Colors.grey.shade300),
                       ),
                       child: TextField(
@@ -184,7 +192,7 @@ class MultiSelectDropdownServerState<T> extends State<MultiSelectDropdownServer<
                         autofocus: true,
                         style: const TextStyle(fontSize: 14),
                         decoration: InputDecoration(
-                          hintText: 'Search items...',
+                          hintText: 'Search ${widget.itemLabelName ?? 'items'}...',
                           hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 14),
                           prefixIcon: Icon(Icons.search, color: widget.chipBackgroundColor.withValues(alpha: 0.7), size: 20),
                           suffixIcon: _searchQuery.isNotEmpty
@@ -323,9 +331,8 @@ class MultiSelectDropdownServerState<T> extends State<MultiSelectDropdownServer<
         padding: const EdgeInsets.all(12.0),
         decoration: BoxDecoration(
           border: Border.all(color: _selectedItems.isNotEmpty ? widget.chipBackgroundColor.withValues(alpha: 0.5) : Colors.grey.shade400, width: 1.5),
-          borderRadius: BorderRadius.circular(8),
+          borderRadius: widget.fieldRadius ?? BorderRadius.circular(5),
           color: Colors.white,
-          boxShadow: [BoxShadow(color: Colors.grey.shade200, blurRadius: 4, offset: const Offset(0, 2))],
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -360,10 +367,7 @@ class MultiSelectDropdownServerState<T> extends State<MultiSelectDropdownServer<
                 runSpacing: 8.0,
                 children: _selectedItems.map((item) {
                   return Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(6),
-                      boxShadow: [BoxShadow(color: widget.chipBackgroundColor.withValues(alpha: 0.2), blurRadius: 4, offset: const Offset(0, 2))],
-                    ),
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(6)),
                     child: Chip(
                       surfaceTintColor: Colors.white,
                       backgroundColor: widget.chipBackgroundColor,

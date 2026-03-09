@@ -8,3 +8,8 @@
 ## 0.0.2
 - Fixed minor deprecated properties on widget
 - documentation improved on `README.md`
+
+## 0.0.3
+- Improved decoration customization
+- Minor UI improvements
+- Updated license
