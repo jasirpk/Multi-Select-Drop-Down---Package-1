@@ -7,7 +7,7 @@ void main() {
     await tester.pumpWidget(
       MaterialApp(
         home: Scaffold(
-          body: MultiSelectDropdownServer<String>(
+          body: MultiSelectDropdown<String>(
             items: const ['One', 'Two', 'Three'],
             selectedItems: const [],
             getLabel: (v) => v,
@@ -18,6 +18,6 @@ void main() {
       ),
     );
 
-    expect(find.byType(MultiSelectDropdownServer<String>), findsOneWidget);
+    expect(find.byType(MultiSelectDropdown<String>), findsOneWidget);
   });
 }

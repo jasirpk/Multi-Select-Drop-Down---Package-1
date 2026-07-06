@@ -20,7 +20,7 @@ Add the dependency to your `pubspec.yaml`:
 
 ```yaml
 dependencies:
-  f_multi_select_dropdown: ^0.1.1
+  f_multi_select_dropdown: ^0.1.2
 ````
 
 ## 📸 Screenshots

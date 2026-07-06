@@ -18,3 +18,6 @@
 
 ## 0.1.1
 - Improved documentation
+
+## 0.1.2
+- All dropdown symbol synced

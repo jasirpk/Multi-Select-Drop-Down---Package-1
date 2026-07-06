@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 
-class MultiSelectDropdownServer<T> extends StatefulWidget {
+class MultiSelectDropdown<T> extends StatefulWidget {
   final List<T> items;
   final List<T> selectedItems;
   final ValueChanged<List<T>> onChanged;
@@ -16,7 +16,7 @@ class MultiSelectDropdownServer<T> extends StatefulWidget {
   final BorderRadius? searchFieldRadius;
   final String? itemLabelName;
 
-  const MultiSelectDropdownServer({
+  const MultiSelectDropdown({
     super.key,
     required this.items,
     required this.selectedItems,
@@ -34,10 +34,10 @@ class MultiSelectDropdownServer<T> extends StatefulWidget {
   });
 
   @override
-  MultiSelectDropdownServerState<T> createState() => MultiSelectDropdownServerState<T>();
+  MultiSelectDropdownState<T> createState() => MultiSelectDropdownState<T>();
 }
 
-class MultiSelectDropdownServerState<T> extends State<MultiSelectDropdownServer<T>> {
+class MultiSelectDropdownState<T> extends State<MultiSelectDropdown<T>> {
   late List<T> _selectedItems;
   final TextEditingController _searchController = TextEditingController();
   String _searchQuery = '';
