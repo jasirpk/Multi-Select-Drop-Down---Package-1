@@ -1,6 +1,4 @@
-## 0.0.1
 
-* TODO: Describe initial release.
 ## 0.0.1
 - Initial release
 - Multi select dropdown with search
@@ -16,4 +14,7 @@
 
 ## 0.1.0
 - Improved sample test code
-- Added new issue_tracker
+- Added issue_tracker
+
+## 0.1.1
+- Improved documentation
