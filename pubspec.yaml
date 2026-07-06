@@ -1,8 +1,15 @@
 name: f_multi_select_dropdown
 description: "A customizable multi-select dropdown with local and server-side search support."
-version: 0.0.3
+version: 0.1.0
 homepage: https://github.com/jasirpk/Multi-Select-Drop-Down---Package-1
 repository: https://github.com/jasirpk/Multi-Select-Drop-Down---Package-1
+issue_tracker: https://github.com/jasirpk/Multi-Select-Drop-Down---Package-1/issues
+
+topics: 
+  - flutter
+  - ui
+  - animation
+
 
 environment:
   sdk: ^3.10.7

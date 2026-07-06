@@ -50,7 +50,7 @@ class _MultiSelectDropDownState extends State<MultiSelectDropDown> {
           children: [
             Padding(
               padding: const EdgeInsets.all(8.0),
-              child: MultiSelectDropdownServer(
+              child: MultiSelectDropdown<String>(
                 chipBackgroundColor: Colors.teal,
                 items: countries,
                 selectedItems: dataList,

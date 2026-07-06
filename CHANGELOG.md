@@ -13,3 +13,7 @@
 - Improved decoration customization
 - Minor UI improvements
 - Updated license
+
+## 0.1.0
+- Improved sample test code
+- Added new issue_tracker
